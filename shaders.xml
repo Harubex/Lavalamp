@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shaders>
+    <shader name="default">
+        <vertex>
+            vertex code
+        </vertex>
+        <fragment>
+            fragment code
+        </fragment>
+    </shader>
+    <shader name="boobles">
+        <vertex>
+           moar vertex code
+        </vertex>
+        <fragment>
+          moar  fragment code
+        </fragment>
+    </shader>
+</shaders>
