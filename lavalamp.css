@@ -1,0 +1,39 @@
+body {
+    background-color: black;
+    color: white;
+    margin: 0 auto;
+}
+
+canvas {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    height: 100%;
+}
+
+.controls {
+    position: absolute;
+    width: 24%;
+    height: 80%;
+    border: 1px solid red;
+    top: 10%;
+}
+
+.left {
+    left: 1%;
+}
+
+.right {
+    left: 75%;
+}
+
+ul#modifierList {
+    list-style-type: none;
+}
+
+ul#modifierList > li.descriptor {
+    text-align: center;
+}
+
+ul#modifierList > li.controls {
+}
