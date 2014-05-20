@@ -48,7 +48,7 @@ Lavalamp.prototype = (function() {
         requestId = requestAnimationFrame(render);
         if(flowing) {
             demo.scene.remove(balls);
-            balls = lavaballs.getMesh(200.9);
+            balls = lavaballs.getMesh(0.5);
             demo.scene.add(balls);
             update(arguments[0] - lastFrame);
         }
