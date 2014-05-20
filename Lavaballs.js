@@ -104,7 +104,7 @@ Lavaballs.prototype = (function() {
         geometry.computeVertexNormals();
         return geometry;
     }
-    var material = new THREE.MeshLambertMaterial({color: 0x00f400});
+    var material = new THREE.MeshLambertMaterial({color: 0xde3400});
     return {
         lavaballs: [],
         update: function(dt) {
@@ -114,7 +114,7 @@ Lavaballs.prototype = (function() {
                         this.pointField[x][y][z].value = 0;
                         for(var i = 0; i < this.lavaballs.length; i++) { // jesus.
                             var d2 = this.lavaballs[i].center.distanceToSquared(this.pointField[x][y][z].vector);
-                            this.pointField[x][y][z].value += Math.exp( - (d2 /1000));
+                            this.pointField[x][y][z].value += Math.exp( - (d2 /10000));
                         }
                     }
                 }

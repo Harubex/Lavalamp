@@ -32,13 +32,14 @@ Lavalamp.prototype = (function() {
     function update(dt) {
         if(f) {
             ball = lavaballs.addLavaball(new THREE.Vector3(10, -50, 0), 2);
-           // lavaballs.addLavaball(new THREE.Vector3(-20, 50, 0), 1);
-           //lavaballs.addLavaball(new THREE.Vector3(-20, -100, 0), 1);
+            //lavaballs.addLavaball(new THREE.Vector3(-20, 50, 0), 1);
+          lavaballs.addLavaball(new THREE.Vector3(-200, -100, 0), 1);
             balls = lavaballs.getMesh(0.5);
             demo.scene.add(balls);
             //lavaballs.addLavaball(new THREE.Vector3(100, -50, 0), 5);
             f = false;
         }
+        lavaballs.lavaballs[0].center = new THREE.Vector3(demo.mouse.x, demo.mouse.y, 0);
         lavaballs.update(dt);
         for(var i = 0; i < lavaballs.lavaballs.length; i++) {
            // lavaballs.lavaballs[i].center.y += (dt || 0) / 50;

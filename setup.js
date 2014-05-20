@@ -46,19 +46,17 @@ function setupScene(canvas) {
         document.body.appendChild(cnv);
         return cnv;
     }());
-    var sceneWidth = $(canvas).width(), 
-        sceneHeight = $(canvas).height();
-    var scene = new THREE.Scene();
-    var renderer = setupRenderer(canvas, sceneWidth, sceneHeight);
-    var camera = setupCamera(sceneWidth, sceneHeight);
-    addLights(scene, sceneWidth, sceneHeight);
-    return {
-        scene: scene,
-        camera: camera,
-        renderer: renderer,
-        width: sceneWidth,
-        height: sceneHeight
+    var demo = {
+        scene: new THREE.Scene(),
+        width: $(canvas).width(),
+        height: $(canvas).height(),
+        mouse: {x: 0, y: 0}
     };
+    demo.renderer = setupRenderer(canvas, demo.width, demo.height);
+    demo.camera = setupCamera(demo.width, demo.height);
+    addLights(demo.scene, demo.width, demo.height);
+    addEventHandlers(canvas, demo);
+    return demo;
 }
 
 function setupRenderer(cnv, cnvWidth, cnvHeight) {
@@ -123,4 +121,26 @@ function addLights(scene, cnvWidth, cnvHeight) {
     scene.add(fillLight);
     scene.add(backLight);
     scene.add(backgroundLight);
+}
+
+function addEventHandlers(cnv, properties) {
+    var projector = new THREE.Projector();
+    var vector = new THREE.Vector3();
+    $(cnv).bind("mousemove", function(e) {
+        vector.x = (e.clientX / window.innerWidth) * 2 - 1;
+        vector.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        vector.z = 0.5;
+
+        projector.unprojectVector(vector, properties.camera);
+        var dir = vector.sub(properties.camera.position).normalize();
+        var distance = -properties.camera.position.z / dir.z;
+        var pos = properties.camera.position.clone().add(dir.multiplyScalar(distance));
+        
+        if(!properties.mouse) {
+            properties.mouse = {x: pos.x, y: pos.y};
+        } else {
+            properties.mouse.x = pos.x;
+            properties.mouse.y = pos.y;
+        }
+    });
 }

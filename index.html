@@ -17,6 +17,7 @@
         <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
         <script src="http://threejs.org/build/three.min.js"></script>
         <script src="setup.js"></script>
+        <script src="utils.js"></script>
         <script src="metaball-data.js"></script>
         <script src="Lavaballs.js"></script>
         <script src="Lavalamp.js"></script>
@@ -26,7 +27,7 @@
         <script>
             var demo = setupScene(document.getElementById('background'));
             var sh = getShaders();
-            var lavalamp = new Lavalamp(new THREE.Vector3(20, 20, 20));
+            var lavalamp = new Lavalamp(new THREE.Vector3(10, 10, 10));
             lavalamp.startFlowing();
         </script>
     </body>
