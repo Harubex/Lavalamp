@@ -1,1 +1,33 @@
-hai
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Whoa, the Colors.</title>
+        <style>
+            body {
+                background-color: black;
+                margin: 0 auto;
+            }
+            canvas {
+                position: absolute;
+                left: 25%;
+                width: 50%;
+                height: 100%;
+            }
+        </style>
+        <script src="jquery-1.11.1.js"></script>
+        <script src="three.js"></script><!--http://threejs.org/build/three.min.js-->
+        <script src="setup.js"></script>
+        <script src="metaball-data.js"></script>
+        <script src="Lavaballs.js"></script>
+        <script src="Lavalamp.js"></script>
+    </head>
+    <body>
+        <canvas id="background"></canvas>
+        <script>
+            var demo = setupScene(document.getElementById('background'));
+            var sh = getShaders();
+            var lavalamp = new Lavalamp(new THREE.Vector3(20, 20, 20));
+            lavalamp.startFlowing();
+        </script>
+    </body>
+</html>
