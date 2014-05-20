@@ -2,32 +2,78 @@
 <html>
     <head>
         <title>Whoa, the Colors.</title>
-        <style>
-            body {
-                background-color: black;
-                margin: 0 auto;
-            }
-            canvas {
-                position: absolute;
-                left: 25%;
-                width: 50%;
-                height: 100%;
-            }
-        </style>
-        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script src="http://threejs.org/build/three.min.js"></script>
         <script src="setup.js"></script>
         <script src="utils.js"></script>
         <script src="metaball-data.js"></script>
         <script src="Lavaballs.js"></script>
         <script src="Lavalamp.js"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="lavalamp.css"/>
     </head>
     <body>
+        <section class="controls left">
+            <ul id="modifierList">
+                <li class="descriptor">
+                    Movement Speed
+                </li>
+                <li class="control">
+                    <div id="speedSlider"></div>
+                </li>
+                <li class="descriptor">
+                    Spawn Rate
+                </li>
+                <li class="control">
+                    <div id="rateSlider"></div>
+                </li>
+                <li class="descriptor">
+                    Ball Size
+                </li>
+                <li class="control">
+                    <div id="sizeSlider"></div>
+                </li>
+                <li class="threshold descriptor">
+                    Render Threshold
+                </li>
+                <li class="threshold control">
+                    <div id="thresholdSlider"></div>
+                </li>
+                <li class="descriptor">
+                    Resolution
+                </li>
+                <li id="threshold" class="control">
+                    <div id="resolutionSlider"></div>
+                </li>
+                <li class="descriptor">
+                    Ball Material
+                </li>
+                <li id="material" class="control">
+                    <select id="materialSelection">
+                        <optgroup label="Three.js Presets">
+                            <option value="Basic">Basic</option>
+                            <option value="Lambert" selected>Lambert</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Phong">Phong</option>
+                            <option value="Wireframe">Wireframe</option>
+                        </optgroup>
+                        <optgroup id="shaderList" label="GLSL Materials">
+                            
+                        </optgroup>
+                    </select>
+                </li>
+            </ul>
+        </section>
         <canvas id="background"></canvas>
+        <section class="controls right">
+            
+        </section>
         <script>
             var demo = setupScene(document.getElementById('background'));
             var sh = getShaders();
-            var lavalamp = new Lavalamp(new THREE.Vector3(10, 10, 10));
+            var lavalamp = new Lavalamp(new THREE.Vector3(20, 20, 20));
+            addUIElements(lavalamp);
             lavalamp.startFlowing();
         </script>
     </body>

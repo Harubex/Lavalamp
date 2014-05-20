@@ -32,12 +32,20 @@ function getShaders() {
                     fragment: fragmentShader
                 };
             }
+            buildOptionsList();
         },
         error: function(e) {
-            alert("Error occurred getting shaders: " + a);
+            alert("Error occurred getting shaders: " + e);
         }
     });
-    return shaders;
+    
+    function buildOptionsList() {
+        var listHtml = "";
+        $.each(shaders, function(name, shader) {
+            listHtml += "<option value='" + name + "'>" + name + "</option>";
+        });
+        $("#shaderList").html(listHtml);
+    }
 }
 
 function setupScene(canvas) {
@@ -121,6 +129,67 @@ function addLights(scene, cnvWidth, cnvHeight) {
     scene.add(fillLight);
     scene.add(backLight);
     scene.add(backgroundLight);
+}
+
+function addUIElements(lamp) {
+    $(".rate").tooltip({
+        content: function() {
+            return "This controls the speed that balls travel upwards, applied as a modifier to their base speed (which itself is a function of the ball's size)." + 
+            "</br>Setting this too low may lead to overly-sluggish balls." +
+            "</br>Setting this too high may lead to ridiculously-fast balls.";
+        }
+    });
+    $("#speedSlider").slider();
+    $(".rate").tooltip({
+        content: function() {
+            return "This controls the rate at which new balls will be created." + 
+            "</br>Setting this too low may lead to long periods of inactivity." +
+            "</br>Setting this too high may lead to chaos (depends upon user's definition of chaos).";
+        }
+    });
+    $("#rateSlider").slider();
+    $(".size").tooltip({
+        content: function() {
+            return "This controls the range of sizes that newly-spawned balls will be given." + 
+            "</br>Setting this too low may cause some of the spawned balls to not render.";
+        }
+    });
+    $("#sizeSlider").slider({
+        range: true // min to max size of balls to spawn
+    });
+    $(".threshold").tooltip({
+        content: function() {
+            return "This controls the cutoff point at which any given vertex will render." + 
+            "</br>Setting this too low with respect to the balls' resolution causes some or all of them to not render.";
+        }
+    });
+    $("#thresholdSlider").slider({
+        min: 0.1,
+        max: 0.9,
+        value: 0.5,
+        step: 0.01,
+        change: function(e, ui) {
+            lamp.setThreshold(1 - ui.value);
+        }
+    });
+    $(".resolution").tooltip({
+        content: function() {
+            return "This controls the spacing of the points taken into consideration when rendering the balls and, subsequently, the quality of the render." +
+               "Setting this too low will yield a poor-looking render and cause undesirable artifacts to appear." +
+               "Setting this too high will lead to performance issues on all but the beefiest systems.";
+        }
+    });
+    $("#resolutionSlider").slider({
+        min: 10,
+        max: 50,
+        value: 20,
+        step: 1,
+        change: function(e, ui) {
+            lamp.resetPointField(new THREE.Vector3(
+                ui.value, ui.value, ui.value)
+            );
+        }
+    });
 }
 
 function addEventHandlers(cnv, properties) {
