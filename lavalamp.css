@@ -1,7 +1,8 @@
 body {
     background-color: black;
-    color: white;
+    color: #e6e3e7;
     margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
 }
 
 canvas {
@@ -11,12 +12,23 @@ canvas {
     height: 100%;
 }
 
+h6 {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
 .controls {
     position: absolute;
-    width: 24%;
+    width: 20%;
     height: 80%;
-    border: 1px solid red;
     top: 10%;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.controls select {
+    width: 100%;
 }
 
 .left {
@@ -27,13 +39,21 @@ canvas {
     left: 75%;
 }
 
+#infoPane {
+    
+}
+
 ul#modifierList {
     list-style-type: none;
+    padding: 10% 0;
 }
 
 ul#modifierList > li.descriptor {
     text-align: center;
+    padding: 3px 0;
+    font-size: 18px;
 }
 
-ul#modifierList > li.controls {
+ul#modifierList > li.control {
+    padding: 5px 0 20px;
 }

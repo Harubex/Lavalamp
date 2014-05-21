@@ -5,7 +5,9 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script src="http://threejs.org/build/three.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
         <script src="setup.js"></script>
+        <script src="descriptions.js"></script>
         <script src="utils.js"></script>
         <script src="metaball-data.js"></script>
         <script src="Lavaballs.js"></script>
@@ -14,24 +16,24 @@
         <link rel="stylesheet" type="text/css" href="lavalamp.css"/>
     </head>
     <body>
-        <section class="controls left">
+        <section id="controlPane" class="controls left">
             <ul id="modifierList">
-                <li class="descriptor">
+                <li class="speed descriptor">
                     Movement Speed
                 </li>
-                <li class="control">
+                <li class="speed control">
                     <div id="speedSlider"></div>
                 </li>
-                <li class="descriptor">
+                <li class="rate descriptor">
                     Spawn Rate
                 </li>
-                <li class="control">
+                <li class="rate control">
                     <div id="rateSlider"></div>
                 </li>
-                <li class="descriptor">
+                <li class="size descriptor">
                     Ball Size
                 </li>
-                <li class="control">
+                <li class="size control">
                     <div id="sizeSlider"></div>
                 </li>
                 <li class="threshold descriptor">
@@ -40,16 +42,16 @@
                 <li class="threshold control">
                     <div id="thresholdSlider"></div>
                 </li>
-                <li class="descriptor">
+                <li class="resolution descriptor">
                     Resolution
                 </li>
-                <li id="threshold" class="control">
+                <li id="threshold" class="resolution control">
                     <div id="resolutionSlider"></div>
                 </li>
-                <li class="descriptor">
+                <li class="material descriptor">
                     Ball Material
                 </li>
-                <li id="material" class="control">
+                <li class="material control">
                     <select id="materialSelection">
                         <optgroup label="Three.js Presets">
                             <option value="Basic">Basic</option>
@@ -66,8 +68,10 @@
             </ul>
         </section>
         <canvas id="background"></canvas>
-        <section class="controls right">
-            
+        <section id="infoPane" class="controls right">
+            <h6>Metalava</h6>
+            <br><br>
+            This is a demo for balls. Metaballs.
         </section>
         <script>
             var demo = setupScene(document.getElementById('background'));

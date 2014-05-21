@@ -8,7 +8,7 @@ function Lavalamp(size) {
 var f = true;
 Lavalamp.prototype = (function() {
     // variables controlling state and speed of lamp
-    var flowing, speed = 0.5;
+    var flowing, speed = 1, rate = 1;
     var threshold = 0.5;
     // utility variables
     var requestId, lastFrame;
@@ -24,7 +24,7 @@ Lavalamp.prototype = (function() {
             f = false;
         }
         lavaballs.ballData[0].center = new THREE.Vector3(demo.mouse.x, demo.mouse.y, 0);
-        lavaballs.update(dt);
+        lavaballs.update(dt, speed);
         if(!cooldown && !THREE.Math.randInt(0, 100)) { // 1% chance per frame of creating a ball
             var len = lavaballs.addLavaball();
             // bigger balls, longer cooldown
@@ -55,7 +55,7 @@ Lavalamp.prototype = (function() {
             cancelAnimationFrame(requestId);
         },
         setSpeed: function(flowSpeed) {
-            speed = Math.max(Math.min(flowSpeed, 0), 1);
+            speed = Math.abs(flowSpeed);
         },
         setThreshold: function(value) {
             threshold = value;

@@ -109,7 +109,8 @@ Lavaballs.prototype = (function() {
     return {
         ballData: [],
         pointField: [],
-        update: function(dt) {
+        update: function(dt, speed) {
+            speed = speed || 1;
             // First, update the values of the point field.
             var ballBaseSize = (2000 + demo.width + demo.height);
             for(var x = 0; x < this.pointField.length; x++) {
@@ -126,7 +127,7 @@ Lavaballs.prototype = (function() {
             // Next, adjust the positions of the balls.
             var removalList = [];
             for(var i = 0; i < this.ballData.length; i++) {
-                this.ballData[i].center.y += Math.min(dt, 500) * this.ballData[i].speed;
+                this.ballData[i].center.y += speed * Math.min(dt, 500) * this.ballData[i].speed;
                 if(this.ballData[i].center.y > demo.height * 1.5) {
                     removalList.push(i);
                 }

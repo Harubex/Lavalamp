@@ -132,52 +132,48 @@ function addLights(scene, cnvWidth, cnvHeight) {
 }
 
 function addUIElements(lamp) {
-    $(".rate").tooltip({
-        content: function() {
-            return "This controls the speed that balls travel upwards, applied as a modifier to their base speed (which itself is a function of the ball's size)." + 
-            "</br>Setting this too low may lead to overly-sluggish balls." +
-            "</br>Setting this too high may lead to ridiculously-fast balls.";
+    var infoPane = $("#infoPane");
+    
+    $(".speed").hover(function() {
+        infoPane.html(descriptions.speed.join("<br><br>"));
+    });
+    $("#speedSlider").slider({
+        min: 0.05,
+        max: 20,
+        step: 0.05,
+        value: 1,
+        change: function(e, ui) {
+            lamp.setSpeed(ui.value);
         }
     });
-    $("#speedSlider").slider();
-    $(".rate").tooltip({
-        content: function() {
-            return "This controls the rate at which new balls will be created." + 
-            "</br>Setting this too low may lead to long periods of inactivity." +
-            "</br>Setting this too high may lead to chaos (depends upon user's definition of chaos).";
-        }
+    
+    $(".rate").hover(function() {
+        infoPane.html(descriptions.rate.join("<br><br>"));
     });
     $("#rateSlider").slider();
-    $(".size").tooltip({
-        content: function() {
-            return "This controls the range of sizes that newly-spawned balls will be given." + 
-            "</br>Setting this too low may cause some of the spawned balls to not render.";
-        }
+    
+    $(".size").hover(function() {
+        infoPane.html(descriptions.size.join("<br><br>"));
     });
     $("#sizeSlider").slider({
         range: true // min to max size of balls to spawn
     });
-    $(".threshold").tooltip({
-        content: function() {
-            return "This controls the cutoff point at which any given vertex will render." + 
-            "</br>Setting this too low with respect to the balls' resolution causes some or all of them to not render.";
-        }
+    
+    $(".threshold").hover(function() {
+        infoPane.html(descriptions.threshold.join("<br><br>"));
     });
     $("#thresholdSlider").slider({
         min: 0.1,
         max: 0.9,
-        value: 0.5,
         step: 0.01,
+        value: 0.5,
         change: function(e, ui) {
             lamp.setThreshold(1 - ui.value);
         }
     });
-    $(".resolution").tooltip({
-        content: function() {
-            return "This controls the spacing of the points taken into consideration when rendering the balls and, subsequently, the quality of the render." +
-               "Setting this too low will yield a poor-looking render and cause undesirable artifacts to appear." +
-               "Setting this too high will lead to performance issues on all but the beefiest systems.";
-        }
+    
+    $(".resolution").hover(function() {
+        infoPane.html(descriptions.resolution.join("<br><br>"));
     });
     $("#resolutionSlider").slider({
         min: 10,
