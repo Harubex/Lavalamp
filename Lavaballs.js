@@ -1,4 +1,8 @@
-// pointField is 3d array of vector/value pair objects
+/**
+ * Creates a new set of balls.
+ * @param {type} pointField - a 3-dimensional array of vector/value pair objects.
+ * @returns {Lavaballs} the newly-created instance of this object.
+ */
 Lavaballs = function(pointField) {
     this.pointField = pointField;
 };
@@ -105,7 +109,7 @@ Lavaballs.prototype = (function() {
         geometry.computeVertexNormals();
         return geometry;
     }
-    var material = new THREE.MeshNormalMaterial({color: 0xde3400});
+    var material = new THREE.MeshLambertMaterial({color: 0xde3400});
     return {
         ballData: [],
         pointField: [],
@@ -127,7 +131,7 @@ Lavaballs.prototype = (function() {
             // Next, adjust the positions of the balls.
             var removalList = [];
             for(var i = 0; i < this.ballData.length; i++) {
-                this.ballData[i].center.y += speed * Math.min(dt, 500) * this.ballData[i].speed;
+                this.ballData[i].center.y += Math.min(dt, 500) * this.ballData[i].speed / speed;
                 if(this.ballData[i].center.y > demo.height * 1.5) {
                     removalList.push(i);
                 }
@@ -139,11 +143,14 @@ Lavaballs.prototype = (function() {
         getMesh: function(isoLevel) {
             return new THREE.Mesh(buildGeometry(isoLevel), material);
         },
+        setMaterial: function(newMaterial) {
+            material = newMaterial;
+        },
         /// speed can be based off of strength (larger bubble, slower bubble)
         addLavaball: function(strength, center) {
             center = center || new THREE.Vector3(
-                THREE.Math.randInt(-demo.width/4, demo.width/4),
-                -demo.height,
+                THREE.Math.randInt(-demo.width / 4, demo.width / 4),
+                -demo.height / 1.5,
                 THREE.Math.randInt(-50, 50)
             );
             /* As a guideline, 2x the strength:

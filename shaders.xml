@@ -1,38 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shaders>
-    <shader name="something">
+    <shader name="Simple">
         <vertex>
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+            }
         </vertex>
         <fragment>
-            uniform vec2 resolution;
-            uniform float noise;
-            uniform vec3 color;
-            #define VIG_REDUCTION_POWER 1.
-            #define VIG_BOOST 1.
-            
-            float random(vec3 scale,float seed){
-                return fract(sin(dot(gl_FragCoord.xyz+seed,scale))*43758.5453+seed);
-            }
-            
+            varying vec2 vUv;
             void main() {
-                vec2 center = resolution * 0.5;
-                float vignette = distance( center, gl_FragCoord.xy ) / resolution.x;
-                vignette = VIG_BOOST - vignette * VIG_REDUCTION_POWER;
-                float n = noise * ( .5 - random( vec3( 1. ), length( gl_FragCoord ) ) );
-                float v = .5 * length( vec2( gl_FragCoord.y / resolution.y, ( 1. - abs( .5 - gl_FragCoord.x / resolution.x ) ) ) );
-                vec3 base = color;
-                base += vec3( pow( v, 2. ) );
-                gl_FragColor = vec4( base * vec3( vignette ) + vec3( n ), 1. );
-            } 
+                gl_FragColor = vec4( vec3( vUv, 0. ), 1. );
+
+            }
         </fragment>
     </shader>
-    <shader name="boobles">
+    <shader name="Oilspill">
         <vertex>
-           moar vertex code
+            attribute vec3 position;
+            
+            void main() {
+                gl_Position = vec4(position, 1.0);
+            }
         </vertex>
-        <fragment>
-          moar  fragment code
-        </fragment>
+        <fragment><![CDATA[
+            #ifdef GL_ES
+            precision mediump float;
+            #endif
+
+            uniform float time;
+            varying vec2 surfacePosition;
+
+            void main() {
+                vec2 position = surfacePosition * 100.;
+                float x = position.x;
+                float y = position.y;
+                float t = time;
+
+                float r = -0.0, g = -0.0, b = -0.0;
+                for(int i = 1; i < 12; i++) {
+                    t += sin(float(i)) + r + g + b;
+                    r += sin(x / 40. + t + sin(y / 40.)) * sin(y/25. + t + sin(x/20. - t));
+                    g += sin(x / 80. - t + sin(y / 20.)) * sin(y/50. - t + sin(x/40. + t));
+                    b += sin(x / 60. + t + sin(y / 30.)) * sin(y/25. + t + sin(x/40. - t));
+                }
+                vec3 rgb = abs(normalize(vec3(r, g, b)));
+                rgb = floor(rgb * 5.) / 5.;
+                gl_FragColor = vec4(rgb, 1.);
+            }
+        ]]</fragment>
     </shader>
 </shaders>

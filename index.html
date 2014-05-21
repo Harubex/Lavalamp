@@ -8,7 +8,6 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
         <script src="setup.js"></script>
         <script src="descriptions.js"></script>
-        <script src="utils.js"></script>
         <script src="metaball-data.js"></script>
         <script src="Lavaballs.js"></script>
         <script src="Lavalamp.js"></script>
@@ -16,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="lavalamp.css"/>
     </head>
     <body>
+        <canvas id="background"></canvas>
         <section id="controlPane" class="controls left">
             <ul id="modifierList">
                 <li class="speed descriptor">
@@ -60,23 +60,25 @@
                             <option value="Phong">Phong</option>
                             <option value="Wireframe">Wireframe</option>
                         </optgroup>
+                        <!-- This is where custom shaders will go.
                         <optgroup id="shaderList" label="GLSL Materials">
-                            
-                        </optgroup>
+                        </optgroup>-->
                     </select>
                 </li>
             </ul>
         </section>
-        <canvas id="background"></canvas>
         <section id="infoPane" class="controls right">
-            <h6>Metalava</h6>
+            <header>Metalava</header>
             <br><br>
-            This is a demo for balls. Metaballs.
+            This is a demo that shows some of the neat capabilities of metaballs.
+            <br><br>
+            The mouse controls one of the balls, which can be merged with other balls on the screen.
         </section>
         <script>
+            // Sets up everything and gets the ball rolling (hah)
             var demo = setupScene(document.getElementById('background'));
-            var sh = getShaders();
             var lavalamp = new Lavalamp(new THREE.Vector3(20, 20, 20));
+            addEventHandlers(lavalamp, demo);
             addUIElements(lavalamp);
             lavalamp.startFlowing();
         </script>
