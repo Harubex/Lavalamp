@@ -8,6 +8,8 @@ Lavaballs = function(pointField) {
 };
 
 Lavaballs.prototype = (function() {
+    /* Creates a geometry according to the current location of this object's balls.
+    It's essentially an implementation of this algorithm: http://en.wikipedia.org/wiki/Marching_cubes */
     function buildGeometry(threshold) {
         var vertices = new Array(12);
         var geometry = new THREE.Geometry();
@@ -15,6 +17,7 @@ Lavaballs.prototype = (function() {
         for(var x = 0; x < this.pointField.length - 1; x++) {
             for(var y = 0; y < this.pointField[0].length - 1; y++) {
                 for(var z = 0; z < this.pointField[0][0].length - 1; z++) {
+                    // Gets the vertices of the cube adjacent to the current point.
                     var point0 = this.pointField[ x ][ y ][ z ],
                         point1 = this.pointField[x+1][ y ][ z ],
                         point2 = this.pointField[ x ][y+1][ z ],
@@ -23,7 +26,7 @@ Lavaballs.prototype = (function() {
                         point5 = this.pointField[x+1][ y ][z+1],
                         point6 = this.pointField[ x ][y+1][z+1],
                         point7 = this.pointField[x+1][y+1][z+1];
-                    
+                    // If any of the points' values are under the threshold, mark them to be displayed.
                     var cubeIndex = 0;
                     if(point0.value < threshold) cubeIndex |= 1;
                     if(point1.value < threshold) cubeIndex |= 2;
@@ -33,11 +36,11 @@ Lavaballs.prototype = (function() {
                     if(point5.value < threshold) cubeIndex |= 32;
                     if(point7.value < threshold) cubeIndex |= 64;
                     if(point6.value < threshold) cubeIndex |= 128;
-                    
+                    // Use that value to look up the type of configuration to render.
                     var bits = lookup.edge[cubeIndex];
                     
-                    if(!bits) continue;// else console.log(bits);
-                    
+                    if(!bits) continue;
+                    // Create the actual vertices to be used for rendering the cube.
                     var mean = 0.5;
                     if(bits & 1) {
                         mean = (threshold - point0.value) / (point1.value - point0.value);
@@ -88,18 +91,17 @@ Lavaballs.prototype = (function() {
                         vertices[11] = point2.vector.clone().lerp(point6.vector, mean);
                     }
                     cubeIndex <<= 4;
-                    var faceNormals = [
-                        new THREE.Vector2(0, 0), 
-                        new THREE.Vector2(0, 1), 
-                        new THREE.Vector2(1, 1)
-                    ];
                     for(var i = 0; lookup.triangle[cubeIndex + i] != -1; i += 3, vertexIndex += 3) {
-                        // clones necessary?
-                        geometry.vertices.push(vertices[lookup.triangle[cubeIndex + i]].clone());
-                        geometry.vertices.push(vertices[lookup.triangle[cubeIndex + i + 1]].clone());
-                        geometry.vertices.push(vertices[lookup.triangle[cubeIndex + i + 2]].clone());
+                        // Add vertices to geometry, create a face for them, tell the renderer which way is "out".
+                        geometry.vertices.push(vertices[lookup.triangle[cubeIndex + i]]);
+                        geometry.vertices.push(vertices[lookup.triangle[cubeIndex + i + 1]]);
+                        geometry.vertices.push(vertices[lookup.triangle[cubeIndex + i + 2]]);
                         geometry.faces.push(new THREE.Face3(vertexIndex, vertexIndex + 1, vertexIndex + 2));
-                        geometry.faceVertexUvs[0].push(faceNormals);// needed?
+                        geometry.faceVertexUvs[0].push([
+                            new THREE.Vector2(0, 0), 
+                            new THREE.Vector2(0, 1), 
+                            new THREE.Vector2(1, 1)
+                        ]);
                     }
                 }
             }
