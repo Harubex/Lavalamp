@@ -1,6 +1,6 @@
 /**
  * Creates a new set of balls.
- * @param {type} pointField - a 3-dimensional array of vector/value pair objects.
+ * @param {Array} pointField - a 3-dimensional array of vector/value pair objects.
  * @returns {Lavaballs} the newly-created instance of this object.
  */
 Lavaballs = function(pointField) {
