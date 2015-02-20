@@ -16,6 +16,14 @@
     </head>
     <body>
         <canvas id="background"></canvas>
+		<div id="menu">
+			<div id="speed"></div>
+			<div id="rate"></div>
+			<div id="size"></div>
+			<div id="threshold"></div>
+			<div id="resolution"></div>
+			<div id="material"></div>
+		</div>
         <section id="controlPane" class="controls left">
             <ul id="modifierList">
                 <li class="speed descriptor">
@@ -75,7 +83,7 @@
             The mouse controls one of the balls, which can be merged with other balls on the screen.
         </section>
         <script>
-            // Sets up everything and gets the ball rolling (hah)
+            // Sets up everything and gets the ball rolling (ha).
             var demo = setupScene(document.getElementById('background'));
             var lavalamp = new Lavalamp(new THREE.Vector3(20, 20, 20));
             addEventHandlers(lavalamp, demo);

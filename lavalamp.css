@@ -30,6 +30,21 @@ header {
     z-index: 2;
 }
 
+#menu {
+	position: fixed;
+	width: 200px;
+	height: 200px;
+	display: none;
+	background-color: grey;
+}
+
+.option {
+	background-color: red;
+}
+.option:hover {
+	background-color: purple;
+}
+
 .controls select {
     width: 100%;
 }
