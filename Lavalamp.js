@@ -1,5 +1,3 @@
-/// <reference path="C:\Users\Ryan\Downloads\mrdoob-three.js-r70-2-g74e7d09\mrdoob-three.js-74e7d09\build\three.js" />
-
 var pointField = [], lavaballs;
 /**
  * Creates a new Lavalamp object. This takes care of creating and controlling a 
