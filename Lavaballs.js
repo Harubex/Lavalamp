@@ -1,13 +1,9 @@
-/**
- * Creates a new set of balls.
- * @param {Array} pointField - a 3-dimensional array of vector/value pair objects.
- * @returns {Lavaballs} the newly-created instance of this object.
- */
-Lavaballs = function(pointField) {
+// Creates a vertex grid and exposes functions for rendering a mesh to the grid.
+Lavaballs = function (pointField) {
 	this.pointField = pointField;
 };
 
-Lavaballs.prototype = (function() {
+Lavaballs.prototype = (function () {
 	/* Creates a geometry according to the current location of this object's balls.
     It's essentially an implementation of this algorithm: http://en.wikipedia.org/wiki/Marching_cubes */
 	function buildGeometry(threshold) {
@@ -38,7 +34,7 @@ Lavaballs.prototype = (function() {
 					if (point6.value < threshold) cubeIndex |= 128;
 					// Use that value to look up the type of configuration to render.
 					var bits = lookup.edge[cubeIndex];
-
+                    // Make sure configuration exists. If it doesn't, theres nothing to render.
 					if (!bits) continue;
 					// Create the actual vertices to be used for rendering the cube.
 					var mean = 0.5;
@@ -111,11 +107,23 @@ Lavaballs.prototype = (function() {
 		geometry.computeVertexNormals();
 		return geometry;
 	}
+	var clock = new THREE.Clock();
 	var material = new THREE.MeshLambertMaterial({ color: 0xde3400 });
+	var $doc = $(document);
+	var startTime = new Date().getTime();
+    // Sets shader parameters for the current frame.
+	function sendShaderData(material) {
+	    material.uniforms.time.value += clock.getDelta();
+	    material.uniforms.resolution.value = new THREE.Vector2($doc.width(), $doc.height());
+	}
 	return {
 		ballData: [],
 		pointField: [],
-		update: function(dt, speed) {
+		update: function (dt, speed) {
+            // Check if shader is custom, send shader data if so.
+		    if (material instanceof THREE.ShaderMaterial) {
+		        sendShaderData(material);
+		    }
 			speed = speed || 1;
 			// First, update the values of the point field.
 			var ballBaseSize = (2000 + demo.width + demo.height);
@@ -142,31 +150,33 @@ Lavaballs.prototype = (function() {
 				this.removeLavaball(removalList[i]);
 			}
 		},
-		getMesh: function(isoLevel) {
+        // Gets the current mesh of all the balls.
+		getMesh: function (isoLevel) {
 			return new THREE.Mesh(buildGeometry(isoLevel), material);
 		},
-		setMaterial: function(newMaterial) {
+        // Sets the material used by the balls.
+		setMaterial: function (newMaterial) {
 			material = newMaterial;
 		},
-		/// speed can be based off of strength (larger bubble, slower bubble)
-		addLavaball: function(strength, center) {
-			center = center || new THREE.Vector3(
+        // Creates a new lavaball to incorporate into this object and returns the new number of balls.
+		createLavaball: function (strength, center) {
+		    center = center || new THREE.Vector3(
+                // The horizontal value is near the middle of the screen.
                 THREE.Math.randInt(-demo.width / 4, demo.width / 4),
+                // The vertical value is just below it.
                 -demo.height / 1.5,
+                // The depth value is random but still towards the center.
                 THREE.Math.randInt(-50, 50)
             );
-			/* As a guideline, 2x the strength:
-               - 8x the weight (volume of a sphere)
-               - 0.25x the speed (archimedes principle)
-               and then a bit of randomness to make things interesting. */
 			strength = strength || Math.pow(Math.E, Math.random());
 			return this.ballData.push({
-				center: center,
-				strength: strength,
-				speed: 1 / Math.pow((1 + Math.random()) * strength, 2)
+				center: center, // A vector denoting the center of the ball.
+				strength: strength, // The strength of the ball's weights, which determines it's size.
+				speed: 1 / Math.pow((1 + Math.random()) * Math.sqrt(strength), 3) // How quickly the ball moves.
 			});
 		},
-		removeLavaball: function(index) {
+        // Remove a ball from this object.
+		removeLavaball: function (index) {
 			return this.ballData.splice(index, 1).pop();
 		}
 	};

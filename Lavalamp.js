@@ -1,25 +1,23 @@
 var pointField = [], lavaballs;
+
 /**
  * Creates a new Lavalamp object. This takes care of creating and controlling a 
  *   Lavaballs object through the setters that it defines.
- * @param {THREE.Vector3} size - the number of points for each dimension of this object.
- * @returns {Lavalamp} a new object, ready to be started.
+ * size - the number of points for each dimension of this object.
+ * Returns a new Lavalamp object, ready to be started.
  */
-
 function Lavalamp(size) {
-	/// <summary>Determines the area of a circle that has the specified radius parameter.</summary>
-	/// <param name="radius" type="Number">The radius of the circle.</param>
-	/// <returns type="Number">The area.</returns>
 	this.resetPointField(size);
 	lavaballs = new Lavaballs(pointField);
 };
 
-Lavalamp.prototype = (function() {
+Lavalamp.prototype = (function () {
 	var initialized = false;
-	// variables controlling state and speed of the lamp and its' balls.
+	// Variables controlling state and speed of the lamp and it's balls.
 	var flowing, speed = 1, rate = 100, minSize = 1, maxSize = 5, threshold = 0.5;
-	// utility variables
-	var requestId, lastFrame;
+	// Miscellaneous utility variables.
+	var requestId; // The id returned by the last call to requestAnimationFrame.
+	var lastFrame; // The time that the last frame occurred at.
 	var lavaballMesh; // The mesh that will be added to the scene.
 	var userBall; // The index pointing to a ball that the user can control.
 	var zPosition = 0; // The z-position of the user's ball.
@@ -27,8 +25,8 @@ Lavalamp.prototype = (function() {
 	function update(dt) {
 		if (!initialized) {
 			// Adds user-controlled ball and creates initial mesh.
-			userBall = lavaballs.addLavaball(2, new THREE.Vector3(0, 0, 0)) - 1;
-			$(document).bind("wheel", function(e) {
+			userBall = lavaballs.createLavaball(2, new THREE.Vector3()) - 1;
+			$(document).bind("wheel", function (e) {
 				zPosition += e.originalEvent.deltaY / 5
 			});
 			lavaballMesh = lavaballs.getMesh(threshold);
@@ -40,7 +38,7 @@ Lavalamp.prototype = (function() {
 		lavaballs.update(dt, speed);
 		// creates a new ball, if possible
 		if (!cooldown && !THREE.Math.randInt(0, rate)) { // add randomness to ball creation
-			var len = lavaballs.addLavaball(THREE.Math.randFloat(minSize, maxSize));
+		    var len = lavaballs.createLavaball(THREE.Math.randFloat(minSize, maxSize));
 			// bigger balls, longer cooldown
 			cooldown = lavaballs.ballData[len - 1].strength * rate;
 		} else if (cooldown) {
@@ -61,31 +59,39 @@ Lavalamp.prototype = (function() {
 	}
 	// Public member definitions.
 	return {
-		startFlowing: function() {
+        // Starts ball movement.
+		startFlowing: function () {
 			flowing = true;
 			render();
 		},
-		stopFlowing: function() {
+        // Pauses ball movement.
+		stopFlowing: function () {
 			flowing = false;
 			cancelAnimationFrame(requestId);
 		},
-		setBallMaterial: function(material) {
+        // Sets the material to be used by the balls.
+		setBallMaterial: function (material) {
 			lavaballs.setMaterial(material);
 		},
-		setSizeRange: function(min, max) {
+        // Sets the minimum and maximum size for the balls to be generated.
+		setSizeRange: function (min, max) {
 			minSize = min;
 			maxSize = max;
 		},
-		setSpawnRate: function(spawnRate) {
+        // Sets how quickly the balls are created.
+		setSpawnRate: function (spawnRate) {
 			rate = 100 / spawnRate;
 		},
-		setSpeed: function(flowSpeed) {
+        // Sets the base movement speed of all balls.
+		setSpeed: function (flowSpeed) {
 			speed = 1 / Math.abs(flowSpeed);
 		},
-		setThreshold: function(value) {
+        // Sets the threshold value at which a point will be rendered.
+		setThreshold: function (value) {
 			threshold = value;
 		},
-		resetPointField: function(size) {
+        // Evenly spaces out the vertex field when a change in their size occurs.
+		resetPointField: function (size) {
 			for (var x = 0; x < size.x; x++) {
 				pointField[x] = [];
 				var lerpX = lerp(-demo.width / 2, demo.width / 2, x / size.x);

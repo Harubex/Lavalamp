@@ -3,88 +3,75 @@
     <head>
         <title>Lavalamp</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+        <script src="shaders.js"></script>
         <script src="setup.js"></script>
-        <script src="descriptions.js"></script>
         <script src="metaball-data.js"></script>
         <script src="Lavaballs.js"></script>
         <script src="Lavalamp.js"></script>
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="lavalamp.css"/>
+        <link rel="stylesheet" type="text/css" href="lavalamp.css"/> 
     </head>
     <body>
-        <canvas id="background"></canvas>
-		<div id="menu">
-			<div id="speed"></div>
-			<div id="rate"></div>
-			<div id="size"></div>
-			<div id="threshold"></div>
-			<div id="resolution"></div>
-			<div id="material"></div>
-		</div>
-        <section id="controlPane" class="controls left">
-            <ul id="modifierList">
-                <li class="speed descriptor">
-                    Movement Speed
-                </li>
-                <li class="speed control">
-                    <div id="speedSlider"></div>
-                </li>
-                <li class="rate descriptor">
-                    Spawn Rate
-                </li>
-                <li class="rate control">
-                    <div id="rateSlider"></div>
-                </li>
-                <li class="size descriptor">
-                    Ball Size
-                </li>
-                <li class="size control">
-                    <div id="sizeSlider"></div>
-                </li>
-                <li class="threshold descriptor">
-                    Render Threshold
-                </li>
-                <li class="threshold control">
-                    <div id="thresholdSlider"></div>
-                </li>
-                <li class="resolution descriptor">
-                    Resolution
-                </li>
-                <li id="threshold" class="resolution control">
-                    <div id="resolutionSlider"></div>
-                </li>
-                <li class="material descriptor">
-                    Ball Material
-                </li>
-                <li class="material control">
-                    <select id="materialSelection">
-                        <optgroup label="Three.js Presets">
-                            <option value="Basic">Basic</option>
-                            <option value="Lambert" selected>Lambert</option>
-                            <option value="Normal">Normal</option>
-                            <option value="Phong">Phong</option>
-                            <option value="Wireframe">Wireframe</option>
-                        </optgroup>
-                        <!-- This is where custom shaders will go.
-                        <optgroup id="shaderList" label="GLSL Materials">
-                        </optgroup>-->
-                    </select>
-                </li>
-            </ul>
-        </section>
-        <section id="infoPane" class="controls right">
-            <header>Metalava</header>
-            <br><br>
-            This is a demo that shows some of the neat capabilities of metaballs.
-            <br><br>
-            The mouse controls one of the balls, which can be merged with other balls on the screen.
-        </section>
+        <canvas id="ballpen"></canvas>
+        <span id="instructions">Right click to bring up the settings menu.</span>
+        <ul id="settings">
+            <li id="movement_speed" class="speed option" title="Controls the speed that balls travel upwards.">
+                Movement Speed
+            </li>
+            <li class="speed control">
+                <div id="speedSlider" data-min="0.5" data-max="20" data-step="0.5" data-value="5"></div>
+            </li>
+            <li id="spawn_rate" class="rate option" title="Controls the rate at which new balls will be created.">
+                Spawn Rate
+            </li>
+            <li class="rate control">
+                <div id="rateSlider" data-min="0.5" data-max="20" data-step="0.5" data-value="5"></div>
+            </li>
+            <li class="size option" title="Controls the range of sizes that newly-spawned balls will be given.">
+                Ball Size
+            </li>
+            <li class="size control">
+                <div id="sizeSlider" data-min="0.1" data-max="10" data-value-low="1" data-value-high="4"></div>
+            </li>
+            <li class="threshold option" title="Controls the cutoff point at which a given vertex will render.">
+                Render Threshold
+            </li>
+            <li class="threshold control">
+                <div id="thresholdSlider" data-min="0.1" data-max="0.9" data-step="0.01" data-value="0.5"></div>
+            </li>
+            <li class="resolution option" title="Controls the spacing of each point taken into consideration when rendering the balls, affecting the quality of the render.">
+                Resolution
+            </li>
+            <li class="resolution control">
+                <div id="resolutionSlider" data-min="10" data-max="50" data-step="1" data-value="20"></div>
+            </li>
+            <li class="material option" title="Controls the material that the balls are rendered with.">
+                Ball Material
+            </li>
+            <li id="material_container" class="material control">
+                <ul id="material_options">
+                    <li class="material group" title="The materials that are built into the Three.js library.">
+                        Three.js Presets
+                    </li>
+                    <li id="preset_materials" class="material control">
+                        <!-- Preset shaders added here at runtime. -->
+                    </li>
+                    <li class="material group" title="Materials rendered from custom-made shaders.">
+                        Custom Materials
+                    </li>
+                    <li id="custom_materials" class="material control">
+                        <!-- Custom shaders added here at runtime. -->
+                    </li>
+                </ul>
+            </li>
+        </ul>
         <script>
+            setupMenu("#settings", "#material_options");
             // Sets up everything and gets the ball rolling (ha).
-            var demo = setupScene(document.getElementById('background'));
+            var demo = setupScene("#ballpen");
             var lavalamp = new Lavalamp(new THREE.Vector3(20, 20, 20));
             addEventHandlers(lavalamp, demo);
             addUIElements(lavalamp);

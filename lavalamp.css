@@ -1,8 +1,7 @@
 body {
     background-color: black;
-    color: #e6e3e7;
     margin: 0 auto;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 canvas {
@@ -14,60 +13,75 @@ canvas {
     z-index: 1;
 }
 
-header {
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
+.ui-accordion .ui-accordion-content {
+    padding: 7% 5% 14%; /* Centers the slider bars in their containers. */
 }
 
-.controls {
-    position: absolute;
-    width: 20%;
-    height: 80%;
-    top: 5%;
-    padding: 15px;
-    border-radius: 5px;
+.ui-tooltip {
+    font-size: 13px;
+}
+
+.ui-slider:hover, .ui-slider-handle:hover, #settings > li.control {
+    cursor: -moz-grab;
+	cursor: -webkit-grab;
+    background: white;
+}
+
+.ui-slider-handle:active {
+    cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+}
+
+.material .option {
+	padding: 2px;
+	margin: 5px 0;
+	outline: solid grey 1px;
+	cursor: pointer;
+}
+
+#settings > li.option, .material .option {
+    background: linear-gradient(to bottom, lightgrey 0%, white 50%, lightgrey 100%);
+    border-radius: 2px;
+}
+
+#settings > li.option:hover, .material .option:hover {
+	background: linear-gradient(to bottom, lightgrey 0%, grey 50%, lightgrey 100%);
+	color: white;
+}
+
+#material_container, #preset_materials, #custom_materials {
+    overflow: auto;
+    /* This !important is needed to avoid jQuery automatically setting the element to a fixed size. */
+    height: auto !important;
+    padding: 5px 5px;
+}
+
+#settings {
+    display: none;
+    font-size: 17px;
+	position: fixed;
+    width: 210px;
+	background: #696969;
+    border-radius: 2px;
+    cursor: pointer;
     z-index: 2;
 }
 
-#menu {
-	position: fixed;
-	width: 200px;
-	height: 200px;
-	display: none;
-	background-color: grey;
+#settings > li {
+	margin: 2px 2px 2px;
+	/* height: 25px; */
+	text-align: center;
+	color: black;
+    /* jQuery's accordion widget sets overflow to auto dynamically; !important must be used to avoid this. */
+	overflow: hidden !important;
 }
 
-.option {
-	background-color: red;
-}
-.option:hover {
-	background-color: purple;
-}
-
-.controls select {
-    width: 100%;
-}
-
-.left {
-    left: 1%;
-}
-
-.right {
-    left: 75%;
-}
-
-ul#modifierList {
-    list-style-type: none;
-    padding: 10% 0;
-}
-
-ul#modifierList > li.descriptor {
-    text-align: center;
-    padding: 3px 0;
-    font-size: 18px;
-}
-
-ul#modifierList > li.control {
-    padding: 5px 0 20px;
+#instructions {
+    position: absolute;
+    left: 35%;
+    top: 5%;
+    font-size: 30px;
+    font-weight: bold;
+    color: lightgrey;
+    z-index: 2;
 }
