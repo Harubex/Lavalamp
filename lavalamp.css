@@ -3,6 +3,7 @@ body {
     background-color: black;
     margin: 0 auto;
     font-family: "Roboto", sans-serif;
+	user-select: none;
 }
 
 canvas {
