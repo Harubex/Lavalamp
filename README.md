@@ -6,3 +6,5 @@ Lavalamp
 Example page: http://harubex.github.io/Lavalamp
 
 This is a small(ish) demo I made that uses [metaballs](http://en.wikipedia.org/wiki/Metaballs) to kinda-sorta simulate the effects of a lava lamp. I used [this](http://www.geisswerks.com/ryan/BLOBS/blobs.html) page as a guide to implementing my balls.
+
+It also works on mobile, if you're into that sort of thing.
