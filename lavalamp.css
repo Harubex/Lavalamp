@@ -1,4 +1,5 @@
 body {
+    overflow: hidden;
     background-color: black;
     margin: 0 auto;
     font-family: "Roboto", sans-serif;
@@ -78,8 +79,11 @@ canvas {
 
 #instructions {
     position: absolute;
-    left: 35%;
     top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
     font-size: 30px;
     font-weight: bold;
     color: lightgrey;

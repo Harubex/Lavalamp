@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Lavalamp</title>
+        <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="lavalamp.css" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
-        <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
         <script src="shaders.js"></script>
         <script src="setup.js"></script>
         <script src="metaball-data.js"></script>
         <script src="Lavaballs.js"></script>
         <script src="Lavalamp.js"></script>
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="lavalamp.css"/> 
     </head>
     <body>
         <canvas id="ballpen"></canvas>
-        <span id="instructions">Right click to bring up the settings menu.</span>
+        <div id="instructions">Right click (or long press) to bring up the settings menu.</div>
         <ul id="settings">
             <li id="movement_speed" class="speed option" title="Controls the speed that balls travel upwards.">
                 Movement Speed
