@@ -186,8 +186,8 @@ function addEventHandlers(lamp, properties) {
 	$document.bind("mousemove touchmove", function (e) {
 		var x, y;
 		if (!!e.touches) {
-			x = e.touches[0].pageX;
-			y = e.touches[0].pageY;
+			x = e.touches[e.touches.length - 1].pageX;
+			y = e.touches[e.touches.length - 1].pageY;
 		} else {
 			x = e.clientX;
 			y = e.clientY;
