@@ -183,11 +183,6 @@ function addEventHandlers(lamp, properties) {
 	// Sets mouse move event for moving around the user ball.
     var projector = new THREE.Projector();
     var $document = $(document);
-	document.addEventListener('touchmove', function(e) {
-		e.preventDefault();
-		var touch = e.touches[0];
-		alert(touch.pageX + " - " + touch.pageY);
-	}, false);
 	$document.bind("mousemove touchmove", function (e) {
 		var x, y;
 		if (!!e.touches) {
