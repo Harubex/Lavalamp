@@ -183,11 +183,23 @@ function addEventHandlers(lamp, properties) {
 	// Sets mouse move event for moving around the user ball.
     var projector = new THREE.Projector();
     var $document = $(document);
-	$document.draggable();
-	$document.bind("mousemove", function (e) {
+	document.addEventListener('touchmove', function(e) {
+		e.preventDefault();
+		var touch = e.touches[0];
+		alert(touch.pageX + " - " + touch.pageY);
+	}, false);
+	$document.bind("mousemove touchmove", function (e) {
+		var x, y;
+		if (!!e.touches) {
+			x = e.touches[0].pageX;
+			y = e.touches[0].pageY;
+		} else {
+			x = e.clientX;
+			y = e.clientY;
+		}
         // Convert screen space into world space.
-        var vector = new THREE.Vector3((e.clientX / $document.width()) * 2 - 1,
-                -(e.clientY / $document.height()) * 2 + 1, 0.5);
+        var vector = new THREE.Vector3((x / $document.width()) * 2 - 1,
+			-(y / $document.height()) * 2 + 1, 0.5);
 		projector.unprojectVector(vector, properties.camera);
 		var dir = vector.sub(properties.camera.position).normalize();
 		var distance = -properties.camera.position.z / dir.z;
