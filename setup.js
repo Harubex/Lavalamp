@@ -53,7 +53,7 @@ function setupMenu(id, matId) {
     }
     $document.on("contextmenu", false)
         .mousedown(startMenu).mouseup(function (e) {
-            if (new Date().getUTCMilliseconds() - lastTime.getUTCMilliseconds() >= .75) {
+            if (new Date().getUTCMilliseconds() - lastTime.getUTCMilliseconds() >= 750) {
                 if ($menu.is(":visible")) {
                     $menu.hide();
                 } else {
